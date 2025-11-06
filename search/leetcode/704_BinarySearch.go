@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func search(nums []int, target int) int {
+func search2(nums []int, target int) int {
 	l, r := 0, len(nums)-1
 
 	for l <= r {
@@ -25,7 +25,7 @@ func main() {
 	arr := []int{-1, 0, 3, 5, 9, 12}
 	tagret := 2
 
-	res := search(arr, tagret)
+	res := search2(arr, tagret)
 	fmt.Println(res)
 }
 
