@@ -2,7 +2,6 @@ package main
 
 import "fmt"
 
-// ///////////// Graph //////////////////
 type Graph struct {
 	ajList map[int][]int //Список смежности вершин
 }
@@ -25,7 +24,7 @@ func (g *Graph) AddEdge(u, v int) {
 func bfs(graph *Graph, startVertex int) ([]bool, []int, []int) {
 	visited := make([]bool, len(graph.ajList))    // Массив посещённых вершин
 	distance := make([]int, len(graph.ajList))    // Массив расстояний от startVertex
-	vertexes := make([]int, 0, len(graph.ajList)) //
+	vertexes := make([]int, 0, len(graph.ajList)) // Узлы которые обошли
 
 	// Изначально расстояние бесконечно (-1)
 	for i := range distance {
