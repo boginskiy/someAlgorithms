@@ -2,58 +2,41 @@ package main
 
 import "fmt"
 
-func bfs3(grid [][]byte, row, col int) {
-	grid[row][col] = '#'
-	queue := [][]int{{row, col}}
+func bfs3(matrix [][]int, vertex int, mapper map[int]string) map[string]int {
+	visited := make([]bool, len(matrix))
+	distance := make(map[string]int)
 
-	// Границы
-	maxRow, maxCol := len(grid), len(grid[0])
+	queue := []int{vertex}
+	visited[vertex] = true
+	distance[mapper[vertex]] = 0
 
 	for len(queue) > 0 {
-		currentP := queue[0]
+		currV := queue[0]
 		queue = queue[1:]
 
-		for _, shift := range [][]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}} {
-			newRow := currentP[0] + shift[0]
-			newCol := currentP[1] + shift[1]
-
-			if newRow >= 0 && newRow < maxRow &&
-				newCol >= 0 && newCol < maxCol &&
-				grid[newRow][newCol] == '1' {
-
-				grid[newRow][newCol] = '#'
-				queue = append(queue, []int{newRow, newCol})
+		for i, neighbour := range matrix[currV] {
+			if neighbour == 1 && !visited[i] {
+				queue = append(queue, i)
+				visited[i] = true
+				distance[mapper[i]] = distance[mapper[currV]] + 1
 			}
 		}
 	}
-}
-
-func numIslands(grid [][]byte) int {
-	if len(grid) == 0 || len(grid[0]) == 0 {
-		return 0
-	}
-
-	rows, cols := len(grid), len(grid[0])
-	cnt := 0
-
-	for row := 0; row < rows; row++ {
-		for col := 0; col < cols; col++ {
-			if grid[row][col] == '1' {
-				bfs3(grid, row, col)
-				cnt++
-			}
-		}
-	}
-	return cnt
+	return distance
 }
 
 func main() {
-	grid := [][]byte{
-		{'1', '1', '1', '1', '0'},
-		{'1', '1', '0', '1', '0'},
-		{'1', '1', '0', '0', '0'},
-		{'0', '0', '0', '0', '0'}}
 
-	res := numIslands(grid)
-	fmt.Println(res)
+	var Matrix = [][]int{
+		{0, 0, 1, 1}, // A
+		{0, 0, 0, 0}, // B
+		{0, 1, 0, 1}, // C
+		{0, 1, 0, 0}, // D
+	}
+
+	Mapper := map[int]string{0: "A", 1: "B", 2: "C", 3: "D"}
+
+	distance := bfs3(Matrix, 0, Mapper)
+	fmt.Println(distance)
+
 }
